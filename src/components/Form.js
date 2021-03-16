@@ -1,5 +1,5 @@
 import React from 'react';
-import { db } from '../Config/Config';
+import fire from '../Config/Config';
 import firebase from 'firebase/app';
 
 const Form = (props) => {
@@ -14,10 +14,11 @@ const Form = (props) => {
         if(props.inputText === "") //don't add empty inputs
             return
         
-        db.collection("todos").add({
+        fire.firestore().collection("todos").add({
             completed: false,
             text: props.inputText,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            userID: fire.auth().currentUser.uid
         })
 
         props.setInputText("");
@@ -28,7 +29,7 @@ const Form = (props) => {
     }
 
     return (
-        <form>
+        <form id="inputform">
             <input onChange={inputTextHandler} type="text" className="todo-input" value={props.inputText}/>
             <button onClick={submitTodoHandler} className="todo-button" type="submit">
                 <i className="fas fa-plus-square"></i>

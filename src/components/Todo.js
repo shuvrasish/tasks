@@ -1,10 +1,10 @@
 import React from 'react';
-import { db } from '../Config/Config';
+import fire from '../Config/Config';
 
 const Todo = (props) => {
     const deleteHandler = () => {
 		// props.setTodos(props.todos.filter(el => el.id !== props.key))
-		db.collection("todos").doc(props.id).delete()
+		fire.firestore().collection("todos").doc(props.id).delete()
     }
 
     const completeHandler = () => {
@@ -16,7 +16,7 @@ const Todo = (props) => {
         //     }
         //     return item;
 		// }))
-		db.collection("todos").doc(props.id).update({
+		fire.firestore().collection("todos").doc(props.id).update({
 			completed: !props.completed
 		})
     }
